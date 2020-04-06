@@ -7,9 +7,25 @@ jobs:
       - checkout
       - run:
           name: JUnit カバレッジレポーターをインストール
+          command: yarn run build
+  test:
+    docker:
+      - image: circleci/node:12.16.1
+    steps:
+      - checkout
+      - run:
+          name: JUnit カバレッジレポーターをインストール
           command: yarn add -D jest-junit
       - run:
           name: JUnit をレポーターとしてテストを実行
           command: yarn run test:ci
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
+workflows:
+  version: 2.1
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
