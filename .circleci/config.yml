@@ -5,9 +5,20 @@ jobs:
       - image: circleci/node:12.16.1
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
-          name: Build
-          command: yarn run build
+          name: Linter
+          command: yarn run lint:ci
+      - store_artifacts:
+          path: artifacts
   test:
     docker:
       - image: circleci/node:12.16.1
@@ -18,9 +29,9 @@ jobs:
           command: yarn add -D jest-junit
       - run:
           name: Run tests with JUnit as reporter
-          command: yarn run test:ci
           environment:
             JEST_JUNIT_OUTPUT_DIR: "test-results/jest/results.xml"
+          command: yarn run test:ci
       - store_test_results:
           path: test-results
 workflows:
@@ -29,3 +40,5 @@ workflows:
     jobs:
       - build
       - test:
+          requires:
+            - build
