@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: JUnit カバレッジレポーターをインストール
+          name: Build
           command: yarn run build
   test:
     docker:
@@ -14,10 +14,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: JUnit カバレッジレポーターをインストール
+          name: JUnitカバレッジレポーターをインストール
           command: yarn add -D jest-junit
       - run:
-          name: JUnit をレポーターとしてテストを実行
+          name: JUnitをレポーターとしてテストを実行
           command: yarn run test:ci
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
