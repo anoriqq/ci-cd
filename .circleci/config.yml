@@ -17,8 +17,10 @@ jobs:
       - run:
           name: Linter
           command: yarn run lint:ci
+      - store_test_results:
+          path: reports
       - store_artifacts:
-          path: artifacts
+          path: reports
   test:
     docker:
       - image: circleci/node:12.16.1
@@ -30,10 +32,12 @@ jobs:
       - run:
           name: Run tests with JUnit as reporter
           environment:
-            JEST_JUNIT_OUTPUT_DIR: "test-results/jest/results.xml"
+            JEST_JUNIT_OUTPUT_DIR: "reports/jest/results.xml"
           command: yarn run test:ci
       - store_test_results:
-          path: test-results
+          path: reports
+      - store_artifacts:
+          path: reports
 workflows:
   version: 2.1
   build-and-test:

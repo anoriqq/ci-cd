@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "build": "echo 'build'",
-    "lint:ci": "eslint --format junit -o artifacts/eslint/results.xml .",
+    "lint:ci": "eslint --format junit -o reports/eslint/results.xml .",
     "test": "jest",
     "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit --testResultsProcessor=jest-junit"
   },
