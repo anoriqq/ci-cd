@@ -10,6 +10,6 @@ jobs:
           command: yarn add -D jest-junit
       - run:
           name: JUnit をレポーターとしてテストを実行
-          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          command: yarn run test:ci
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
