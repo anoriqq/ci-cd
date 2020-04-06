@@ -5,4 +5,11 @@ jobs:
       - image: circleci/node:12.16.1
     steps:
       - checkout
-      - run: echo "hello world"
+      - run:
+          name: JUnit カバレッジレポーターをインストール
+          command: yarn add -D jest-junit
+      - run:
+          name: JUnit をレポーターとしてテストを実行
+          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
