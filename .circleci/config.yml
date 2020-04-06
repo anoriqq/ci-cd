@@ -16,11 +16,13 @@ jobs:
       - run:
           name: JUnitカバレッジレポーターをインストール
           command: yarn add -D jest-junit
+      - store_test_results:
+          path: test-results
       - run:
           name: JUnitをレポーターとしてテストを実行
           command: yarn run test:ci
           environment:
-            JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
+            JEST_JUNIT_OUTPUT_DIR: "test-results/jest/results.xml"
 workflows:
   version: 2.1
   build-and-test:
