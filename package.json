@@ -9,7 +9,7 @@
   "scripts": {
     "build": "echo 'build'",
     "test": "jest",
-    "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit"
+    "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit --testResultsProcessor=jest-junit"
   },
   "dependencies": {},
   "devDependencies": {
