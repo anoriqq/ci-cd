@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.5
 jobs:
   build:
     docker:
@@ -18,7 +20,7 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run:
-          name: Linter
+          name: Lint
           command: yarn run lint:ci
       - store_test_results:
           path: reports
@@ -37,6 +39,8 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/jest/results.xml"
           command: yarn run test:ci
+      - codecov/upload:
+          file: ./coverage/lcov.info
       - store_test_results:
           path: reports
       - store_artifacts:

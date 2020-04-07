@@ -8,4 +8,6 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   reporters: ['default', 'jest-junit'],
+  coverageDirectory: './coverage/',
+  collectCoverage: true,
 };
