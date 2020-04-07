@@ -7,14 +7,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "echo 'build'",
+    "build": "webpack --config webpack.prod.js",
     "lint:ci": "eslint --format junit -o reports/eslint/results.xml .",
     "test": "jest",
-    "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit"
+    "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
+    "start": "webpack --config webpack.dev.js --progress && node dist/server.js"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.0",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^6.8.0",
@@ -25,6 +27,11 @@
     "jest": "^25.2.7",
     "prettier": "^2.0.3",
     "ts-jest": "^25.3.1",
-    "typescript": "^3.8.3"
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2"
   }
 }

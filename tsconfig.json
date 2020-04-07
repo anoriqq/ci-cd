@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "paths": {
+      "*": [
+        "*",
+      ],
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "src/@types",
+    ],
+    "types": [
+      "jest",
+      "node",
+    ],
+    "lib": [
+      "DOM",
+      "ES2015",
+      "ScriptHost",
+    ],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+}
