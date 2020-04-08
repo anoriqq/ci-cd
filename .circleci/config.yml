@@ -47,7 +47,7 @@ jobs:
           path: reports
   deploy:
     docker:
-      - image: google/cloud-sdk:288.0.0-slim
+      - image: google/cloud-sdk:288.0.0
     steps:
       - run:
           name: Authenticate Google Cloud SDK
@@ -58,7 +58,7 @@ jobs:
       # - run:
       #     name: Build the Image
       #     command: docker build -t $GKE_GCR_REPO:$CIRCLE_SHA1
-      - run: echo "$GKE_GCR_REPO $CIRCLE_SHA1"
+      - run: gcloud config list
 workflows:
   version: 2.1
   build-and-test:
