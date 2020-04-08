@@ -59,7 +59,7 @@ jobs:
       - run: gcloud config list
       - run:
           name: Build the Image
-          command: docker build -t gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
+          command: docker build -t gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1 .
       - run:
           name: Push the image
           command: docker push gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
