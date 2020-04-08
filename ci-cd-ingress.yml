@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ci-cd-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: ci-cd
+          servicePort: 80

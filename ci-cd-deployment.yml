@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ci-cd
+  labels:
+    app: ci-cd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ci-cd
+  template:
+    metadata:
+      labels:
+        app: ci-cd
+    spec:
+      containers:
+        - name: ci-cd
+          image: gcr.io/anoriqq-ci-cd/ci-cd:ab07c1a0ce54cf2d133edde2e2927cfebd94ec01
+          ports:
+          - containerPort: 8080
