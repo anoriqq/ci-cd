@@ -20,7 +20,7 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run:
-          name: Lint
+          name: Run Lint
           command: yarn run lint:ci
       - store_test_results:
           path: reports
@@ -45,6 +45,20 @@ jobs:
           path: reports
       - store_artifacts:
           path: reports
+  deploy:
+    docker:
+      - image: google/cloud-sdk:288.0.0-slim
+    steps:
+      - run:
+          name: Authenticate Google Cloud SDK
+          command: |
+            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      # - run:
+      #     name: Build the Image
+      #     command: docker build -t $GKE_GCR_REPO:$CIRCLE_SHA1
+      - run: echo "$GKE_GCR_REPO $CIRCLE_SHA1"
 workflows:
   version: 2.1
   build-and-test:
@@ -53,3 +67,10 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
