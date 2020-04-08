@@ -46,23 +46,17 @@ jobs:
           path: reports
       - store_artifacts:
           path: reports
-  deploy:
-    docker:
-      - image: google/cloud-sdk:288.0.0
-    steps:
-      - checkout
-      - gcp-gcr/build-and-push-image:
-          image: ci-cd
-          tag: $CIRCLE_SHA1
 workflows:
   version: 2.1
-  build-and-test:
+  build-test-and-push-image:
     jobs:
       - build
       - test:
           requires:
             - build
-      - deploy:
+      - gcp-gcr/build-and-push-image:
+          image: ci-cd
+          tag: $CIRCLE_SHA1
           requires:
             - test
           filters:
