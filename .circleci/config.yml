@@ -47,7 +47,6 @@ jobs:
       - store_artifacts:
           path: reports
 workflows:
-  version: 2.1
   build-test-and-push-image:
     jobs:
       - build
