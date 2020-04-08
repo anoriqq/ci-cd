@@ -55,6 +55,7 @@ workflows:
           requires:
             - build
       - gcp-gcr/build-and-push-image:
+          name: deploy
           image: ci-cd
           tag: $CIRCLE_SHA1
           requires:
