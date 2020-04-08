@@ -49,16 +49,20 @@ jobs:
     docker:
       - image: google/cloud-sdk:288.0.0
     steps:
+      - checkout
       - run:
           name: Authenticate Google Cloud SDK
           command: |
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      # - run:
-      #     name: Build the Image
-      #     command: docker build -t $GKE_GCR_REPO:$CIRCLE_SHA1
       - run: gcloud config list
+      - run:
+          name: Build the Image
+          command: docker build -t gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
+      - run:
+          name: Push the image
+          command: docker push gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
 workflows:
   version: 2.1
   build-and-test:
