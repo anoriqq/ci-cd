@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.5
+  gcp-gcr: circleci/gcp-gcr@0.6.1
 jobs:
   build:
     docker:
@@ -50,20 +51,9 @@ jobs:
       - image: google/cloud-sdk:288.0.0
     steps:
       - checkout
-      - run:
-          name: Authenticate Google Cloud SDK
-          command: |
-            echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud auth configure-docker --quiet
-      - run: gcloud config list
-      - run:
-          name: Build the Image
-          command: docker build -t gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1 .
-      - run:
-          name: Push the image
-          command: docker push gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
+      - gcp-gcr/build-and-push-image:
+          image: ci-cd
+          tag: $CIRCLE_SHA1
 workflows:
   version: 2.1
   build-and-test:
