@@ -52,6 +52,8 @@ jobs:
       - image: cimg/base:2020.04
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - gcr/gcr-auth
       - gcr/build-image:
           image: ci-cd
