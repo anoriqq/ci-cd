@@ -58,8 +58,10 @@ jobs:
       - gcr/build-image:
           image: ci-cd
           tag: $CIRCLE_SHA1
+      - run:
+          name: Tag Image
+          command: docker tag gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1 gcr.io/anoriqq-ci-cd/ci-cd:latest
       - run: docker image ls
-      - run: docker tag ci-cd:$CIRCLE_SHA1 gcr.io/anoriqq-ci-cd/ci-cd:latest
       - gcr/push-image:
           image: ci-cd
       - gcr/push-image:
