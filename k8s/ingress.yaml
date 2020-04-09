@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ci-cd-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: 34.96.112.206
+    ingress.gcp.kubernetes.io/pre-shared-cert: anoriqq-ci-cd-static-cert
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: ci-cd
+          servicePort: 80
