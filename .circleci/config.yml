@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.5
   gcr: circleci/gcp-gcr@0.6.1
-  kube: circleci/kubernetes@0.11.0
+  gke: circleci/gcp-gke@1.0.3
 jobs:
   build:
     docker:
@@ -72,12 +72,12 @@ jobs:
       - image: cimg/base:2020.04
     steps:
       - checkout
-      - kube/install-kubectl
-      - kube/update-container-image:
-          container-image-updates: ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
-          get-rollout-status: true
-          record: true
-          resource-name: deployment/ci-cd
+      - gke/rollout-image:
+          cluster: ci-cd
+          container: ci-cd
+          deployment: ci-cd
+          image: gcr.io/anoriqq-ci-cd/ci-cd
+          tag: $CIRCLE_SHA1
 workflows:
   build-test-and-push-image:
     jobs:
