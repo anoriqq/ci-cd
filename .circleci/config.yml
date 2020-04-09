@@ -75,6 +75,7 @@ jobs:
       - checkout
       - gcloud/install
       - gcloud/initialize
+      - gke/install
       - gke/rollout-image:
           cluster: ci-cd
           container: ci-cd
