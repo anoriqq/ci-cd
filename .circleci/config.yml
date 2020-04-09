@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.5
+  gcloud: circleci/gcp-cli@1.8.4
   gcr: circleci/gcp-gcr@0.6.1
   gke: circleci/gcp-gke@1.0.3
 jobs:
@@ -72,6 +73,8 @@ jobs:
       - image: cimg/base:2020.04
     steps:
       - checkout
+      - gcloud/install
+      - gcloud/initialize
       - gke/rollout-image:
           cluster: ci-cd
           container: ci-cd
