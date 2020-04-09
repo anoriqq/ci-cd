@@ -74,7 +74,7 @@ jobs:
       - checkout
       - kube/install-kubectl
       - kube/update-container-image:
-          container-image-updates: 'ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1'
+          container-image-updates: ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
           get-rollout-status: true
           record: true
           resource-name: deployment/ci-cd
