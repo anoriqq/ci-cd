@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ci-cd
-          image: gcr.io/anoriqq-ci-cd/ci-cd:ab07c1a0ce54cf2d133edde2e2927cfebd94ec01
+          image: gcr.io/anoriqq-ci-cd/ci-cd:latest
           ports:
           - containerPort: 8080
           resources:
