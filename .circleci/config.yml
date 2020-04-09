@@ -83,7 +83,7 @@ jobs:
           image: gcr.io/anoriqq-ci-cd/ci-cd
           tag: $CIRCLE_SHA1
 workflows:
-  build-test-and-push-image:
+  build-test-and-deploy:
     jobs:
       - build
       - test:
