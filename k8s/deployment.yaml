@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ci-cd
+  name: ci-cd-deployment
   labels:
     app: ci-cd
 spec:
@@ -20,6 +20,9 @@ spec:
           ports:
           - containerPort: 8080
           resources:
+            requests:
+              memory: 64Mi
+              cpu: 250m
             limits:
               memory: 128Mi
               cpu: 500m
