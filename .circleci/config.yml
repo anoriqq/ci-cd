@@ -4,6 +4,54 @@ orbs:
   gcloud: circleci/gcp-cli@1.8.4
   gcr: circleci/gcp-gcr@0.6.1
   gke: circleci/gcp-gke@1.0.3
+  gke-ext:
+    orbs:
+      gke: circleci/gcp-gke@1.0.3
+    commands:
+      rollout-image:
+        description: Update a deployment's Docker image.
+        parameters:
+          cluster:
+            description: The Kubernetes cluster name.
+            type: string
+          container:
+            description: The Kubernetes container name.
+            type: string
+          deployment:
+            description: The Kubernetes deployment name.
+            type: string
+          image:
+            description: A fully-qualified name for your docker image
+            type: string
+          namespace:
+            default: ''
+            description: The Kubernetes namespace name.
+            type: string
+          tag:
+            default: latest
+            description: Docker image tag
+            type: string
+          dry-run:
+            default: none
+            description: |
+              Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
+            type: string
+        steps:
+          - gke/update-kubeconfig-with-credentials:
+              cluster: <<parameters.cluster>>
+          - run:
+              command: >
+                DRY_RUN="<< parameters.dry-run >>"
+
+                if [ -n "<<parameters.namespace>>" ]; then
+                  set -- "$@" --namespace="<<parameters.namespace>>"
+                fi
+
+                set -- "$@" "--dry-run=${DRY_RUN}"
+
+                kubectl set image deployment <<parameters.deployment>>
+                <<parameters.container>>=<<parameters.image>>:<<parameters.tag>> "$@"
+              name: Roll out image
   kube: circleci/kubernetes@0.11.0
 jobs:
   build:
@@ -80,20 +128,24 @@ jobs:
       - gke/rollout-image:
           cluster: ci-cd-dev
           container: ci-cd
-          deployment: ci-cd
+          deployment: ci-cd-deployment
           image: gcr.io/anoriqq-ci-cd/ci-cd
           tag: $CIRCLE_SHA1
   dry-deploy:
     docker:
       - image: cimg/base:2020.04
     steps:
+      - checkout
       - gcloud/install
       - gcloud/initialize
-      - kube/install
-      - kube/update-container-image:
-          container-image-updates: ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
-          dry-run: true
-          resource-name: deployments/ci-cd-deployment
+      - gke/install
+      - gke-ext/rollout-image:
+          cluster: ci-cd-dev
+          container: ci-cd
+          deployment: ci-cd-deployment
+          image: gcr.io/anoriqq-ci-cd/ci-cd
+          tag: $CIRCLE_SHA1
+          dry-run: client
 workflows:
   build-test-and-deploy:
     jobs:
