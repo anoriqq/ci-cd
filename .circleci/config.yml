@@ -4,6 +4,7 @@ orbs:
   gcloud: circleci/gcp-cli@1.8.4
   gcr: circleci/gcp-gcr@0.6.1
   gke: circleci/gcp-gke@1.0.3
+  kube: circleci/kubernetes@0.11.0
 jobs:
   build:
     docker:
@@ -77,11 +78,20 @@ jobs:
       - gcloud/initialize
       - gke/install
       - gke/rollout-image:
-          cluster: ci-cd
+          cluster: ci-cd-dev
           container: ci-cd
           deployment: ci-cd
           image: gcr.io/anoriqq-ci-cd/ci-cd
           tag: $CIRCLE_SHA1
+  dry-deploy:
+    docker:
+      - image: cimg/base:2020.04
+    steps:
+      - kube/install
+      - kube/update-container-image:
+          container-image-updates: ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
+          dry-run: true
+          resource-name: deployments/ci-cd-deployment
 workflows:
   build-test-and-deploy:
     jobs:
@@ -92,14 +102,17 @@ workflows:
       - build-and-push-docker-image:
           requires:
             - test
-          filters:
-            branches:
-              only:
-                - master
       - deploy:
           requires:
             - build-and-push-docker-image
           filters:
             branches:
               only:
+                - master
+      - dry-deploy:
+          requires:
+            - build-and-push-docker-image
+          filters:
+            branches:
+              ignore:
                 - master
