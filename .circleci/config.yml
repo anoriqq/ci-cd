@@ -7,6 +7,7 @@ orbs:
   gke-ext:
     orbs:
       gke: circleci/gcp-gke@1.0.3
+      k8s: circleci/kubernetes@0.11.0
     commands:
       rollout-image:
         description: Update a deployment's Docker image.
@@ -36,6 +37,43 @@ orbs:
             description: |
               Must be "none", "server", or "client". If client strategy, only print the object that would be sent, without sending it. If server strategy, submit server-side request without persisting the resource.
             type: string
+          get-rollout-status:
+            default: false
+            description: |
+              Get the status of the rollout.
+              This can only be used for resource types that are valid
+              for usage with `kubectl rollout` subcommands.
+            type: boolean
+          pinned-revision-to-watch:
+            default: ''
+            description: |
+              Pin a specific revision to be watched and abort watching if it is rolled
+              over by another revision.
+              Only effective if get-rollout-status is set to true.
+            type: string
+          resource-name:
+            default: ''
+            description: |
+              Resource name in the format TYPE/NAME e.g. deployment/nginx-deployment
+              Either resource-file-path or resource-name need to be specified.
+              This is required if get-rollout-status is set to true.
+            type: string
+          watch-rollout-status:
+            default: true
+            description: |
+              Whether to watch the status of the latest rollout until it's done.
+              Only effective if get-rollout-status is set to true.
+            type: boolean
+          watch-timeout:
+            default: ''
+            description: >
+              The length of time to wait before ending the watch, zero means never.
+
+              Any other values should contain a corresponding time unit (e.g. 1s, 2m,
+              3h).
+
+              Only effective if get-rollout-status is set to true.
+            type: string
         steps:
           - gke/update-kubeconfig-with-credentials:
               cluster: <<parameters.cluster>>
@@ -52,6 +90,15 @@ orbs:
                 kubectl set image deployment <<parameters.deployment>>
                 <<parameters.container>>=<<parameters.image>>:<<parameters.tag>> "$@"
               name: Roll out image
+          - when:
+              condition: << parameters.get-rollout-status >>
+              steps:
+                - k8s/get-rollout-status:
+                    namespace: << parameters.namespace >>
+                    pinned-revision-to-watch: << parameters.pinned-revision-to-watch >>
+                    resource-name: << parameters.resource-name >>
+                    watch-rollout-status: << parameters.watch-rollout-status >>
+                    watch-timeout: << parameters.watch-timeout >>
   kube: circleci/kubernetes@0.11.0
 jobs:
   build:
@@ -125,12 +172,14 @@ jobs:
       - gcloud/install
       - gcloud/initialize
       - gke/install
-      - gke/rollout-image:
+      - gke-ext/rollout-image:
           cluster: ci-cd-dev
           container: ci-cd
           deployment: ci-cd-deployment
           image: gcr.io/anoriqq-ci-cd/ci-cd
           tag: $CIRCLE_SHA1
+          get-rollout-status: true
+          watch-timeout: 5m
   dry-deploy:
     docker:
       - image: cimg/base:2020.04
