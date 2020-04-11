@@ -179,6 +179,7 @@ jobs:
           image: gcr.io/anoriqq-ci-cd/ci-cd
           tag: $CIRCLE_SHA1
           get-rollout-status: true
+          resource-name: deployment/ci-cd-deployment
           watch-timeout: 5m
   dry-deploy:
     docker:
