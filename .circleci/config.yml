@@ -87,6 +87,8 @@ jobs:
     docker:
       - image: cimg/base:2020.04
     steps:
+      - gcloud/install
+      - gcloud/initialize
       - kube/install
       - kube/update-container-image:
           container-image-updates: ci-cd=gcr.io/anoriqq-ci-cd/ci-cd:$CIRCLE_SHA1
