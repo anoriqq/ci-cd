@@ -13,6 +13,11 @@
     "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
     "start": "webpack --config webpack.dev.js --progress && node dist/server.js"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "precise-commits"
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "@types/jest": "25.2.1",
@@ -24,7 +29,9 @@
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-import": "2.20.2",
     "eslint-plugin-prettier": "3.1.2",
+    "husky": "^4.2.5",
     "jest": "25.3.0",
+    "precise-commits": "^1.0.2",
     "prettier": "2.0.4",
     "ts-jest": "25.3.1",
     "ts-loader": "6.2.2",
