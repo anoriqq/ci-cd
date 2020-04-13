@@ -26,6 +26,7 @@
   "plugins": ["@typescript-eslint"],
   "settings": {
     "import/resolver": {
+      "node": {},
       "webpack": {
         "config": "webpack.dev.js"
       }

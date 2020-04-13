@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "lint:ci": "eslint --fix --format junit -o reports/eslint/results.xml ./src/index.ts",
+    "lint": "eslint --fix --ext .ts './src/**/*'",
+    "lint:ci": "eslint --fix --format junit -o reports/eslint/results.xml --ext .ts ./src/**/*",
     "test": "jest",
     "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
     "start": "webpack --config webpack.dev.js --progress && node dist/server.js"
