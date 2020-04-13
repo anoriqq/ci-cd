@@ -34,7 +34,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.ts', '.tsx', '.js', '.jsx', '.mjs'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
   externals: [nodeExternals()],
