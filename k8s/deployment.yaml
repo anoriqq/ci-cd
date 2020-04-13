@@ -18,7 +18,7 @@ spec:
         - name: ci-cd
           image: gcr.io/anoriqq-ci-cd/ci-cd:latest
           ports:
-          - containerPort: 8080
+            - containerPort: 8080
           resources:
             requests:
               memory: 64Mi

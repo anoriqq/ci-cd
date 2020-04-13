@@ -3,23 +3,11 @@
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {
-      "*": [
-        "*",
-      ],
+      "*": ["*"]
     },
-    "typeRoots": [
-      "node_modules/@types",
-      "src/@types",
-    ],
-    "types": [
-      "jest",
-      "node",
-    ],
-    "lib": [
-      "DOM",
-      "ES2015",
-      "ScriptHost",
-    ],
+    "typeRoots": ["node_modules/@types", "src/@types"],
+    "types": ["jest", "node"],
+    "lib": ["DOM", "ES2015", "ScriptHost"],
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -29,12 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "sourceMap": true,
-    "noImplicitAny": true,
+    "noImplicitAny": true
   },
-  "include": [
-    "src/**/*.ts",
-  ],
-  "exclude": [
-    "node_modules",
-  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

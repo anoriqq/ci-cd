@@ -7,14 +7,13 @@ metadata:
     networking.gke.io/managed-certificates: anoriqq-ci-cd-static-certificate
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: ci-cd
-          servicePort: 80
+    - http:
+        paths:
+          - backend:
+              serviceName: ci-cd
+              servicePort: 80
 
 ---
-
 apiVersion: networking.gke.io/v1beta1
 kind: ManagedCertificate
 metadata:
