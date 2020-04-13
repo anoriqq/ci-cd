@@ -136,7 +136,7 @@ jobs:
       - run:
           name: Run tests with JUnit as reporter
           environment:
-            JEST_JUNIT_OUTPUT_DIR: "reports/jest/results.xml"
+            JEST_JUNIT_OUTPUT_DIR: 'reports/jest/results.xml'
           command: yarn run test:ci
       - codecov/upload:
           file: ./coverage/lcov.info

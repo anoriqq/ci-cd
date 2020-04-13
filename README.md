@@ -11,14 +11,14 @@ Studying CI/CD
 
 1. Create cluster on gke
 
-  ```shell
-    gcloud beta container --project GCLOUD_PROJECT_ID clusters create 'ci-cd-dev' --zone 'asia-northeast1-b' --release-channel 'stable' --num-nodes '1' --enable-ip-alias --default-max-pods-per-node '10' --enable-autoscaling --min-nodes '1' --max-nodes '3' --max-surge-upgrade 1 --max-unavailable-upgrade 0
-  ```
+```shell
+  gcloud beta container --project GCLOUD_PROJECT_ID clusters create 'ci-cd-dev' --zone 'asia-northeast1-b' --release-channel 'stable' --num-nodes '1' --enable-ip-alias --default-max-pods-per-node '10' --enable-autoscaling --min-nodes '1' --max-nodes '3' --max-surge-upgrade 1 --max-unavailable-upgrade 0
+```
 
 1. Apply k8s objects
 
-  ```shell
-    kubectl apply -f ./k8s
-  ```
+```shell
+  kubectl apply -f ./k8s
+```
 
 1. Edit app to push to master branch!
