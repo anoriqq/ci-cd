@@ -2,11 +2,11 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.5
   gcloud: circleci/gcp-cli@1.8.4
-  gcr: circleci/gcp-gcr@0.6.1
-  gke: circleci/gcp-gke@1.0.3
+  gcr: circleci/gcp-gcr@0.7.1
+  gke: circleci/gcp-gke@1.0.4
   gke-ext:
     orbs:
-      gke: circleci/gcp-gke@1.0.3
+      gke: circleci/gcp-gke@1.0.4
       k8s: circleci/kubernetes@0.11.0
     commands:
       rollout-image:
